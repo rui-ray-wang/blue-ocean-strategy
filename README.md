@@ -15,7 +15,7 @@ visualizing competitive strategy using a Strategy Canvas.
 ## ✏️ What You'll Find
 
 -   An **example Strategy Canvas** demonstrating how the framework
-    works\
+    works
 -   A **blank canvas template** for students to build their own analysis
     during class activities
 
