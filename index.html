@@ -310,7 +310,7 @@ body {
 /* ═══════════════════════════════════════
    VIEW 7 — INTERACTIVE CANVAS
 ══════════════════════════════════════ */
-.builder-wrap { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
+.builder-wrap { display: grid; grid-template-columns: 420px 1fr; gap: 20px; align-items: start; }
 .builder-panel { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
 .builder-panel h3 { font-size: 15px; font-weight: 800; color: #1a2332; margin-bottom: 16px; }
 
@@ -322,7 +322,7 @@ body {
 .factor-name:focus { border-color: #0ea5e9; }
 .factor-slider-wrap { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; overflow: visible; }
 .slider-label { font-size: 9px; color: #94a3b8; text-align: center; font-weight: 600; }
-.factor-slider { width: 78px; accent-color: #0ea5e9; display: block; }
+.factor-slider { width: 64px; accent-color: #0ea5e9; display: block; }
 .factor-slider.rival { accent-color: #ef4444; }
 .del-btn { background: none; border: none; color: #cbd5e1; cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 4px; transition: color .15s; flex-shrink: 0; width: 24px; }
 .del-btn:hover { color: #ef4444; }
@@ -365,6 +365,104 @@ body {
 .ins-box.diverg  label { color: #6d28d9; }
 .ins-box.tagline label { color: #15803d; }
 .ins-box textarea { width:100%; border:none; background:transparent; font-size:12px; color:#374151; resize:none; outline:none; line-height:1.55; font-family:inherit; }
+
+/* ═══════════════════════════════════════
+   TIMER WIDGET
+══════════════════════════════════════ */
+.timer-widget {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timer-display {
+  font-size: 15px;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: .05em;
+  min-width: 52px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.timer-display.warning { color: #fb923c; }
+.timer-display.urgent  { color: #f87171; animation: pulse .8s ease-in-out infinite alternate; }
+@keyframes pulse { from { opacity: 1; } to { opacity: .5; } }
+.timer-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,.2);
+  color: #94a3b8;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.timer-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+.timer-btn.running { border-color: #0ea5e9; color: #0ea5e9; }
+.timer-sep { color: rgba(255,255,255,.15); font-size: 16px; }
+.timer-preset { font-size: 10px; color: #475569; cursor: pointer; text-decoration: underline; }
+.timer-preset:hover { color: #94a3b8; }
+
+/* ═══════════════════════════════════════
+   ACTIVITY HEADER
+══════════════════════════════════════ */
+.activity-header {
+  background: linear-gradient(135deg, #0f172a 0%, #0c2a4a 100%);
+  border-radius: 12px;
+  padding: 20px 28px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border: 1px solid rgba(14,165,233,.2);
+}
+.activity-badge {
+  background: rgba(14,165,233,.15);
+  border: 1.5px solid rgba(14,165,233,.4);
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.activity-badge .badge-num { font-size: 28px; font-weight: 900; color: #38bdf8; line-height: 1; }
+.activity-badge .badge-lbl { font-size: 9px; font-weight: 700; color: #64748b; letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+.activity-steps { flex: 1; display: flex; gap: 6px; flex-direction: column; }
+.activity-steps .step { font-size: 12.5px; color: #94a3b8; line-height: 1.4; display: flex; gap: 8px; }
+.activity-steps .step strong { color: #e2e8f0; }
+.step-num { width: 18px; height: 18px; border-radius: 50%; background: rgba(14,165,233,.2); border: 1px solid rgba(14,165,233,.4); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #38bdf8; flex-shrink: 0; margin-top: 1px; }
+.team-wrap { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+.team-input { background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.15); border-radius: 8px; padding: 7px 12px; font-size: 13px; color: #e2e8f0; outline: none; width: 180px; }
+.team-input:focus { border-color: #0ea5e9; }
+.team-input::placeholder { color: #475569; }
+
+/* Starter industry buttons */
+.starters-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.starter-btn {
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.starter-btn:hover { opacity: .8; transform: translateY(-1px); }
+.starter-btn.gl { background: #e0f2fe; border-color: #7dd3fc; color: #075985; }
+.starter-btn.ex { background: #faf5ff; border-color: #c4b5fd; color: #5b21b6; }
+
+/* Download btn */
+.btn-download { background: #f0fdf4; color: #15803d; border: 1.5px solid #86efac; }
+.btn-download:hover { background: #dcfce7; }
+
+/* Print */
+@media print {
+  .top-nav, .builder-panel, .starters-row, .activity-header, .insights-row { display: none !important; }
+  .builder-wrap { grid-template-columns: 1fr !important; }
+  #liveCanvas { width: 100% !important; }
+}
 
 /* ═══════════════════════════════════════
    VIEW 6 — RED vs BLUE
@@ -433,6 +531,23 @@ body {
   <div class="nav-tab" onclick="show('examples')">Classic Examples</div>
   <div class="nav-tab" onclick="show('redblue')">Red vs Blue Ocean</div>
   <div class="nav-tab" onclick="show('sandbox')" style="color:#22d3ee; border-bottom-color:transparent;" id="tab-sandbox">✦ Your Turn</div>
+
+  <!-- ── Timer widget ── -->
+  <div class="timer-widget">
+    <span class="timer-sep">|</span>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+      <div class="timer-display" id="timerDisplay">15:00</div>
+      <div style="display:flex;gap:4px;">
+        <span class="timer-preset" onclick="setTimer(15)">15m</span>
+        <span style="color:#334155">·</span>
+        <span class="timer-preset" onclick="setTimer(10)">10m</span>
+        <span style="color:#334155">·</span>
+        <span class="timer-preset" onclick="setTimer(20)">20m</span>
+      </div>
+    </div>
+    <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">▶ Start</button>
+    <button class="timer-btn" onclick="resetTimer()" title="Reset timer">↺</button>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════ VIEW 1: OVERVIEW ═══════════════════════════════ -->
@@ -1193,9 +1308,20 @@ body {
 
 <!-- ═══════════════════════════════ VIEW 7: YOUR TURN ═══════════════════════════════ -->
 <div id="sandbox" class="view">
-  <div class="sec-head">
-    <h2>✦ Your Turn — Build a Strategy Canvas</h2>
-    <p>Choose a firm. Name the competing factors in its industry. Score the incumbent and your firm on each factor (1–5), then draw the canvas and fill in the ERRC grid below.</p>
+
+  <!-- Activity header banner -->
+  <div class="activity-header">
+    <div class="activity-steps">
+      <div style="font-size:16px;font-weight:800;color:#e2e8f0;margin-bottom:10px;letter-spacing:-.01em;">Your Turn — Build a Strategy Canvas</div>
+      <div class="step"><div class="step-num">1</div><div><strong>Choose a firm</strong> — pick one that might have a blue ocean opportunity in its industry (or use a starter below)</div></div>
+      <div class="step"><div class="step-num">2</div><div><strong>Identify 6–8 competing factors</strong> — the things the industry currently competes on</div></div>
+      <div class="step"><div class="step-num">3</div><div><strong>Score both firms 1–5</strong> on each factor, draw the canvas, then complete the ERRC grid</div></div>
+      <div class="step"><div class="step-num">4</div><div><strong>Discuss</strong> — does the curve diverge? Is there a compelling tagline? Who is the non-customer?</div></div>
+    </div>
+    <div class="team-wrap">
+      <input class="team-input" id="teamName" placeholder="Group / Team name" />
+      <div style="font-size:10px;color:#475569;text-align:center;">← label your canvas</div>
+    </div>
   </div>
 
   <div class="builder-wrap">
@@ -1204,17 +1330,30 @@ body {
     <div>
       <div class="builder-panel" style="margin-bottom:16px;">
         <h3>Step 1 — Name the Firms</h3>
-        <input class="firm-input" id="firmBlue" placeholder="Your firm / Blue Ocean firm (e.g. Pinduoduo)" />
-        <input class="firm-input" id="firmRed"  placeholder="Industry incumbent / Red Ocean rival (e.g. Tmall)" />
-        <input class="firm-input" id="industry" placeholder="Industry context (e.g. Chinese e-commerce, 2015)" />
+
+        <!-- Starter industry quick-load buttons -->
+        <div style="font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">Quick starters →</div>
+        <div class="starters-row">
+          <button class="starter-btn gl" onclick="loadStarter('airbnb')">★ Airbnb vs Hotels</button>
+          <button class="starter-btn gl" onclick="loadStarter('wii')">★ Wii vs PlayStation</button>
+          <button class="starter-btn ex" onclick="loadStarter('blank')">Blank canvas</button>
+        </div>
+
+        <input class="firm-input" id="firmBlue" placeholder="Your firm / Blue Ocean firm (e.g., Airbnb)" />
+        <input class="firm-input" id="firmRed"  placeholder="Industry incumbent / Red Ocean rival (e.g. Marriott/Hilton)" />
+        <input class="firm-input" id="industry" placeholder="Industry context (e.g. Short-term accommodation)" />
       </div>
 
       <div class="builder-panel" style="margin-bottom:16px;">
         <h3>Step 2 — Define Competing Factors</h3>
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-left:3px solid #f59e0b;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11.5px;color:#78350f;line-height:1.5;">
+          <strong>Score = offering level</strong> — higher means the firm offers <em>more</em> of that factor.<br>
+          For <strong>Price</strong>: higher score = <strong>more expensive</strong>. A low-price firm scores <em>low</em> on Price.
+        </div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
           <div style="flex:1;min-width:0;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.08em;text-transform:uppercase;">Factor</div>
-          <div style="width:78px;flex-shrink:0;font-size:9px;font-weight:700;color:#0ea5e9;text-align:center;letter-spacing:.06em;text-transform:uppercase;">Blue ①–⑤</div>
-          <div style="width:78px;flex-shrink:0;font-size:9px;font-weight:700;color:#ef4444;text-align:center;letter-spacing:.06em;text-transform:uppercase;">Red ①–⑤</div>
+          <div style="width:64px;flex-shrink:0;font-size:9px;font-weight:700;color:#0ea5e9;text-align:center;letter-spacing:.06em;text-transform:uppercase;">Blue ①–⑤</div>
+          <div style="width:64px;flex-shrink:0;font-size:9px;font-weight:700;color:#ef4444;text-align:center;letter-spacing:.06em;text-transform:uppercase;">Red ①–⑤</div>
           <div style="width:24px;flex-shrink:0;"></div>
         </div>
         <div id="factorRows"></div>
@@ -1223,9 +1362,8 @@ body {
           <button class="builder-btn btn-draw" onclick="drawCanvas()">▶ Draw Canvas</button>
           <button class="builder-btn btn-reset" onclick="resetAll()">↺ Reset All</button>
         </div>
-        <button class="builder-btn" onclick="loadExample()"
-          style="margin-top:8px;background:#faf5ff;color:#6d28d9;border:1.5px dashed #c4b5fd;font-size:12px;">
-          ★ Load Example Answer (Airbnb vs. Hotels)
+        <button class="builder-btn btn-download" onclick="downloadCanvas()" style="margin-top:8px;">
+          ↓ Download Canvas as Image
         </button>
       </div>
 
@@ -1306,14 +1444,75 @@ function show(id) {
   }
 }
 
+// ── Countdown Timer ──────────────────────────────────────────
+let timerSeconds = 15 * 60;
+let timerInterval = null;
+let timerRunning = false;
+
+function setTimer(minutes) {
+  if (timerRunning) { clearInterval(timerInterval); timerRunning = false; }
+  timerSeconds = minutes * 60;
+  updateTimerDisplay();
+  document.getElementById('timerBtn').textContent = '▶ Start';
+  document.getElementById('timerBtn').classList.remove('running');
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerBtn').textContent = '▶ Resume';
+    document.getElementById('timerBtn').classList.remove('running');
+  } else {
+    timerRunning = true;
+    document.getElementById('timerBtn').textContent = '⏸ Pause';
+    document.getElementById('timerBtn').classList.add('running');
+    timerInterval = setInterval(() => {
+      if (timerSeconds > 0) {
+        timerSeconds--;
+        updateTimerDisplay();
+      } else {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById('timerBtn').textContent = '▶ Start';
+        document.getElementById('timerBtn').classList.remove('running');
+        document.getElementById('timerDisplay').textContent = "Time's up!";
+        document.getElementById('timerDisplay').className = 'timer-display urgent';
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  const mins = Math.round(timerSeconds / 60) || 15;
+  // Reset to same preset
+  timerSeconds = (timerSeconds > 0 ? Math.ceil(timerSeconds / 60) : 15) * 60;
+  timerSeconds = 15 * 60; // default reset to 15m
+  updateTimerDisplay();
+  document.getElementById('timerBtn').textContent = '▶ Start';
+  document.getElementById('timerBtn').classList.remove('running');
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  const el = document.getElementById('timerDisplay');
+  el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  if (timerSeconds <= 60)       el.className = 'timer-display urgent';
+  else if (timerSeconds <= 180) el.className = 'timer-display warning';
+  else                          el.className = 'timer-display';
+}
+
 // ── Interactive Canvas Builder ───────────────────────────────
 const DEFAULT_FACTORS = [
-  { name: 'Price',            blue: 4, red: 2 },
-  { name: 'Product Variety',  blue: 3, red: 4 },
-  { name: 'Brand Prestige',   blue: 2, red: 4 },
-  { name: 'Delivery Speed',   blue: 4, red: 3 },
-  { name: 'User Experience',  blue: 5, red: 2 },
-  { name: 'After-Sale Service',blue:2, red: 4 },
+  { name: 'Price Level',       blue: 2, red: 4 },
+  { name: 'Product Variety',   blue: 3, red: 4 },
+  { name: 'Brand Prestige',    blue: 2, red: 4 },
+  { name: 'Delivery Speed',    blue: 4, red: 3 },
+  { name: 'User Experience',   blue: 5, red: 2 },
+  { name: 'After-Sale Service',blue: 2, red: 4 },
 ];
 
 let factors = JSON.parse(JSON.stringify(DEFAULT_FACTORS));
@@ -1375,7 +1574,9 @@ function drawCanvas() {
   const redName  = document.getElementById('firmRed').value  || 'Industry Incumbent';
   const ind      = document.getElementById('industry').value;
 
+  const team = document.getElementById('teamName').value.trim();
   document.getElementById('canvasTitle').textContent =
+    (team ? '[' + team + '] ' : '') +
     (document.getElementById('firmBlue').value || 'Blue Ocean') + ' vs. ' +
     (document.getElementById('firmRed').value  || 'Incumbent');
   document.getElementById('canvasSub').textContent =
@@ -1518,6 +1719,119 @@ function loadExample() {
 
   drawCanvas();
 }
+
+// ── Download Canvas ─────────────────────────────────────────
+function downloadCanvas() {
+  drawCanvas();
+  const cvs = document.getElementById('liveCanvas');
+  const team = document.getElementById('teamName').value.trim();
+  const blue = document.getElementById('firmBlue').value.trim() || 'BlueOcean';
+  const red  = document.getElementById('firmRed').value.trim()  || 'Incumbent';
+  const link = document.createElement('a');
+  link.download = (team ? team + '_' : '') + blue + '_vs_' + red + '_StrategyCanvas.png';
+  link.href = cvs.toDataURL('image/png');
+  link.click();
+}
+
+// ── Starter Scenarios ────────────────────────────────────────
+const STARTERS = {
+
+  airbnb: {
+    firmBlue: 'Airbnb',
+    firmRed:  'Traditional Hotels (Marriott, Hilton)',
+    industry: 'Short-term accommodation, global, 2010s',
+    factors: [
+      { name: 'Price per night',          blue: 2, red: 4 },
+      { name: 'Brand consistency',        blue: 1, red: 5 },
+      { name: 'Professional services',    blue: 1, red: 5 },
+      { name: 'Location variety',         blue: 5, red: 2 },
+      { name: 'Space & room size',        blue: 5, red: 2 },
+      { name: 'Local authenticity',       blue: 5, red: 1 },
+      { name: 'Kitchen access',           blue: 5, red: 1 },
+      { name: 'Unique character',         blue: 5, red: 1 },
+      { name: 'Host/social experience',   blue: 4, red: 1 },
+      { name: 'Booking flexibility',      blue: 4, red: 3 },
+    ],
+    errc: {
+      e: 'Hotel staff & concierge\nStandardised room service\nHotel restaurant / bar\nUniform brand experience',
+      r: 'Price per night (30–60% cheaper than comparable hotels)\nFormal check-in process',
+      ra: 'Space per dollar (full apartments vs. small rooms)\nLocation variety (any neighbourhood)\nBooking flexibility',
+      c: 'Home-sharing marketplace (supply from spare rooms)\nLive-like-a-local authentic experience\nFull kitchen access\nUnique character — no two are the same',
+    },
+    focus:   'Local authenticity · Space per dollar · Price accessibility — the three factors hotels structurally cannot match.',
+    diverg:  'The blue curve peaks sharply on exactly the four factors where hotels score lowest: authenticity, space, kitchen, unique character.',
+    tagline: '"Belong anywhere — live like a local, not a tourist, at a fraction of the hotel price."',
+  },
+
+  wii: {
+    firmBlue: 'Nintendo Wii',
+    firmRed:  'Sony PlayStation 3 / Xbox 360',
+    industry: 'Home video games, 2006',
+    factors: [
+      { name: 'Processing Power',       blue: 1, red: 5 },
+      { name: 'HD Graphics',            blue: 1, red: 5 },
+      { name: 'Game Complexity',        blue: 2, red: 5 },
+      { name: 'Ease of Play',           blue: 5, red: 2 },
+      { name: 'Motion Controls',        blue: 5, red: 1 },
+      { name: 'Family / Social Fun',    blue: 5, red: 2 },
+      { name: 'Price',                  blue: 2, red: 5 },
+      { name: 'Physical Activity',      blue: 5, red: 1 },
+    ],
+    errc: {
+      e: 'DVD/Blu-ray playback\nHD graphics\nOnline gaming services (initially)',
+      r: 'Processing power\nGame complexity\nController button count',
+      ra: 'Ease of play for non-gamers\nFun for all ages\nPhysical engagement',
+      c: 'Motion-control gameplay (Wiimote)\nFamily social gaming occasions\nSenior and casual gamer market',
+    },
+    focus:   'Motion controls · Family social fun · Ease of play — ignored entirely by Sony/Microsoft who competed only on raw power.',
+    diverg:  'Wii\'s curve is the inverse of PS3 on every technical spec — and spikes upward on every social/accessibility dimension PS3 ignores.',
+    tagline: '"Gaming for everyone — no experience required, just pick up and play together."',
+  },
+
+  blank: {
+    firmBlue: '',
+    firmRed:  '',
+    industry: '',
+    factors: [
+      { name: 'Factor 1', blue: 3, red: 3 },
+      { name: 'Factor 2', blue: 3, red: 3 },
+      { name: 'Factor 3', blue: 3, red: 3 },
+      { name: 'Factor 4', blue: 3, red: 3 },
+      { name: 'Factor 5', blue: 3, red: 3 },
+      { name: 'Factor 6', blue: 3, red: 3 },
+    ],
+    errc: { e: '', r: '', ra: '', c: '' },
+    focus: '', diverg: '', tagline: '',
+  },
+};
+
+function loadStarter(key) {
+  const s = STARTERS[key];
+  document.getElementById('firmBlue').value = s.firmBlue;
+  document.getElementById('firmRed').value  = s.firmRed;
+  document.getElementById('industry').value = s.industry;
+  factors = JSON.parse(JSON.stringify(s.factors));
+  renderFactorRows();
+  const cells = document.querySelectorAll('.errc-q-cell textarea');
+  if (cells[0]) cells[0].value = s.errc.e;
+  if (cells[1]) cells[1].value = s.errc.r;
+  if (cells[2]) cells[2].value = s.errc.ra;
+  if (cells[3]) cells[3].value = s.errc.c;
+  const ins = document.querySelectorAll('.ins-box textarea');
+  if (ins[0]) ins[0].value = s.focus;
+  if (ins[1]) ins[1].value = s.diverg;
+  if (ins[2]) ins[2].value = s.tagline;
+  if (key !== 'blank') drawCanvas();
+  else {
+    const ctx = document.getElementById('liveCanvas').getContext('2d');
+    ctx.clearRect(0, 0, 9999, 9999);
+    document.getElementById('canvasTitle').textContent = 'Strategy Canvas';
+    document.getElementById('canvasSub').textContent = 'Fill in the panel on the left and click "Draw Canvas"';
+  }
+}
+
+// Keep backward compat with old loadExample button (now removed, but safe to keep)
+function loadExample() { loadStarter('airbnb'); }
 
 // Init
 renderFactorRows();
