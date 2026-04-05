@@ -353,7 +353,26 @@ body {
 .canvas-display { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
 .canvas-display h3 { font-size: 15px; font-weight: 800; color: #1a2332; margin-bottom: 4px; }
 .canvas-display .sub { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
-#liveCanvas { width: 100%; border: 1.5px solid #e2e8f0; border-radius: 8px; background: #fafcff; display: block; }
+#liveCanvas { width: 100%; height: 320px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: #fafcff; display: block; }
+.canvas-wrap-rel { position: relative; }
+#canvasOverlay {
+  position: absolute; inset: 0;
+  border-radius: 8px;
+  background: rgba(248,250,252,.96);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; padding-bottom: 48px; pointer-events: none;
+}
+#canvasOverlay .ov-title { font-size: 15px; font-weight: 800; color: #1a2332; }
+#canvasOverlay .ov-paths { display: flex; gap: 20px; }
+#canvasOverlay .ov-path {
+  background: #fff; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  padding: 14px 18px; text-align: center; width: 200px;
+}
+#canvasOverlay .ov-path .ov-icon { font-size: 22px; margin-bottom: 6px; }
+#canvasOverlay .ov-path .ov-head { font-size: 12px; font-weight: 700; color: #1a2332; margin-bottom: 4px; }
+#canvasOverlay .ov-path .ov-desc { font-size: 11px; color: #64748b; line-height: 1.5; }
+#canvasOverlay .ov-path.ov-quick { border-color: #7dd3fc; }
+#canvasOverlay .ov-path.ov-manual { border-color: #c4b5fd; }
 
 .insights-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
 .ins-box { border-radius: 8px; padding: 12px 14px; }
@@ -433,9 +452,9 @@ body {
 .activity-steps .step strong { color: #e2e8f0; }
 .step-num { width: 18px; height: 18px; border-radius: 50%; background: rgba(14,165,233,.2); border: 1px solid rgba(14,165,233,.4); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #38bdf8; flex-shrink: 0; margin-top: 1px; }
 .team-wrap { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
-.team-input { background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.15); border-radius: 8px; padding: 7px 12px; font-size: 13px; color: #e2e8f0; outline: none; width: 180px; }
-.team-input:focus { border-color: #0ea5e9; }
-.team-input::placeholder { color: #475569; }
+.team-input { background: #fff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 7px 12px; font-size: 13px; color: #1a2332; outline: none; width: 180px; }
+.team-input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14,165,233,.15); }
+.team-input::placeholder { color: #94a3b8; }
 
 /* Starter industry buttons */
 .starters-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
@@ -1394,8 +1413,25 @@ body {
     <div>
       <div class="canvas-display">
         <h3 id="canvasTitle">Strategy Canvas</h3>
-        <div class="sub" id="canvasSub">Fill in the panel on the left and click "Draw Canvas"</div>
-        <canvas id="liveCanvas" height="320"></canvas>
+        <div class="sub" id="canvasSub">Offering level by competing factor</div>
+        <div class="canvas-wrap-rel">
+          <canvas id="liveCanvas" height="320"></canvas>
+          <div id="canvasOverlay">
+            <div class="ov-title">How would you like to build your canvas?</div>
+            <div class="ov-paths">
+              <div class="ov-path ov-quick">
+                <div class="ov-icon">★</div>
+                <div class="ov-head">Use a Quick Starter</div>
+                <div class="ov-desc">Click <strong>★ Airbnb vs Hotels</strong> or <strong>★ Wii vs PlayStation</strong> above to load a pre-filled example instantly</div>
+              </div>
+              <div class="ov-path ov-manual">
+                <div class="ov-icon">✏️</div>
+                <div class="ov-head">Build from Scratch</div>
+                <div class="ov-desc">Enter firm names, define 6–8 competing factors, set scores with the sliders, then click <strong>▶ Draw Canvas</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="legend" style="margin-top:12px;">
           <div class="leg-item"><div class="leg-line red"></div> <span id="leg-red">Incumbent / Red Ocean</span></div>
@@ -1559,16 +1595,27 @@ function resetAll() {
   const ctx = document.getElementById('liveCanvas').getContext('2d');
   ctx.clearRect(0, 0, 9999, 9999);
   document.getElementById('canvasTitle').textContent = 'Strategy Canvas';
-  document.getElementById('canvasSub').textContent = 'Fill in the panel on the left and click "Draw Canvas"';
+  document.getElementById('canvasSub').textContent = 'Offering level by competing factor';
+  const overlay = document.getElementById('canvasOverlay');
+  if (overlay) overlay.style.display = '';
 }
 
 function drawCanvas() {
   const cvs  = document.getElementById('liveCanvas');
   const ctx  = cvs.getContext('2d');
+  const dpr  = window.devicePixelRatio || 1;
   const W    = cvs.offsetWidth;
   const H    = 320;
-  cvs.width  = W;
-  cvs.height = H;
+
+  // Hide the instruction overlay once drawing starts
+  const overlay = document.getElementById('canvasOverlay');
+  if (overlay) overlay.style.display = 'none';
+
+  // High-resolution buffer: scale by DPR so 1 CSS px = dpr physical px
+  cvs.width  = Math.round(W * dpr);
+  cvs.height = Math.round(H * dpr);
+  cvs.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
 
   const blueName = document.getElementById('firmBlue').value || 'Blue Ocean Firm';
   const redName  = document.getElementById('firmRed').value  || 'Industry Incumbent';
@@ -1584,29 +1631,39 @@ function drawCanvas() {
   document.getElementById('leg-blue').textContent = blueName;
   document.getElementById('leg-red').textContent  = redName;
 
-  const PAD_L = 52, PAD_R = 20, PAD_T = 24, PAD_B = 52;
+  const PAD_L = 58, PAD_R = 20, PAD_T = 24, PAD_B = 58;
   const chartW = W - PAD_L - PAD_R;
   const chartH = H - PAD_T - PAD_B;
   const n = factors.length;
 
-  // Background
+  // Background + subtle grid fill
   ctx.fillStyle = '#fafcff';
   ctx.fillRect(0, 0, W, H);
 
+  // Horizontal band shading for even rows
+  for (let v = 1; v <= 5; v++) {
+    const y1 = PAD_T + chartH - ((v - 1) / 4) * chartH;
+    const y0 = PAD_T + chartH - (v / 4) * chartH;
+    if (v % 2 === 0) {
+      ctx.fillStyle = 'rgba(241,245,249,0.6)';
+      ctx.fillRect(PAD_L, y0, chartW, y1 - y0);
+    }
+  }
+
   // Grid lines + y-axis labels
-  ctx.font = '9px system-ui';
-  ctx.fillStyle = '#cbd5e1';
+  ctx.font = '600 11px system-ui';
+  ctx.fillStyle = '#94a3b8';
   ctx.textAlign = 'right';
   for (let v = 1; v <= 5; v++) {
     const y = PAD_T + chartH - ((v - 1) / 4) * chartH;
-    ctx.strokeStyle = '#f1f5f9';
+    ctx.strokeStyle = '#e2e8f0';
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(PAD_L, y); ctx.lineTo(W - PAD_R, y); ctx.stroke();
-    ctx.fillText(v, PAD_L - 6, y + 3);
+    ctx.fillText(v, PAD_L - 8, y + 4);
   }
 
   // Axes
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#cbd5e1';
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(PAD_L, PAD_T); ctx.lineTo(PAD_L, PAD_T + chartH);
@@ -1615,35 +1672,73 @@ function drawCanvas() {
 
   // Y-axis label
   ctx.save();
-  ctx.translate(14, PAD_T + chartH / 2);
+  ctx.translate(16, PAD_T + chartH / 2);
   ctx.rotate(-Math.PI / 2);
-  ctx.font = '9px system-ui';
+  ctx.font = '700 10px system-ui';
   ctx.fillStyle = '#94a3b8';
   ctx.textAlign = 'center';
+  ctx.letterSpacing = '0.1em';
   ctx.fillText('OFFERING LEVEL', 0, 0);
+  ctx.letterSpacing = '0';
   ctx.restore();
 
   if (n === 0) return;
 
-  const xs = factors.map((_, i) => PAD_L + (i + 0.5) * (chartW / n));
-  const yOf = v => PAD_T + chartH - ((v - 1) / 4) * chartH;
+  const colW = chartW / n;
+  const xs   = factors.map((_, i) => PAD_L + (i + 0.5) * colW);
+  const yOf  = v => PAD_T + chartH - ((v - 1) / 4) * chartH;
 
-  // X-axis factor labels
-  ctx.font = '600 9.5px system-ui';
-  ctx.fillStyle = '#64748b';
+  // Vertical column separators
+  ctx.strokeStyle = '#f1f5f9';
+  ctx.lineWidth = 1;
+  for (let i = 1; i < n; i++) {
+    const x = PAD_L + i * colW;
+    ctx.beginPath(); ctx.moveTo(x, PAD_T); ctx.lineTo(x, PAD_T + chartH); ctx.stroke();
+  }
+
+  // X-axis factor labels — smart word-wrap using measureText
+  ctx.font = '600 11px system-ui';
+  ctx.fillStyle = '#475569';
   ctx.textAlign = 'center';
+  const maxLabelW = colW - 6;
   factors.forEach((f, i) => {
     const words = f.name.split(' ');
-    let line1 = words[0], line2 = words.slice(1).join(' ');
-    ctx.fillText(line1, xs[i], PAD_T + chartH + 14);
-    if (line2) ctx.fillText(line2, xs[i], PAD_T + chartH + 25);
+    const lines = [];
+    let cur = '';
+    for (const w of words) {
+      const test = cur ? cur + ' ' + w : w;
+      if (ctx.measureText(test).width > maxLabelW && cur) {
+        lines.push(cur); cur = w;
+      } else { cur = test; }
+    }
+    if (cur) lines.push(cur);
+    const lineH = 14;
+    const startY = PAD_T + chartH + 18;
+    lines.forEach((line, li) => ctx.fillText(line, xs[i], startY + li * lineH));
   });
 
-  function drawCurve(color, dash, values) {
+  function drawCurve(color, dash, values, isBlue) {
+    // Shaded area under curve
+    ctx.save();
+    ctx.globalAlpha = 0.07;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    values.forEach((v, i) => {
+      const x = xs[i], y = yOf(v);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.lineTo(xs[n - 1], PAD_T + chartH);
+    ctx.lineTo(xs[0], PAD_T + chartH);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // Line
     ctx.strokeStyle = color;
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = isBlue ? 2 : 1.75;
     ctx.setLineDash(dash);
     ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.beginPath();
     values.forEach((v, i) => {
       const x = xs[i], y = yOf(v);
@@ -1651,22 +1746,29 @@ function drawCanvas() {
     });
     ctx.stroke();
     ctx.setLineDash([]);
-    // dots
+
+    // Dots + value labels
     values.forEach((v, i) => {
+      // White halo
       ctx.beginPath();
       ctx.arc(xs[i], yOf(v), 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      // Colored dot
+      ctx.beginPath();
+      ctx.arc(xs[i], yOf(v), 3.5, 0, Math.PI * 2);
       ctx.fillStyle = color;
       ctx.fill();
-      // value label
-      ctx.font = 'bold 10px system-ui';
+      // Value label above dot
+      ctx.font = 'bold 11px system-ui';
       ctx.fillStyle = color;
       ctx.textAlign = 'center';
-      ctx.fillText(v, xs[i], yOf(v) - 9);
+      ctx.fillText(v, xs[i], yOf(v) - 12);
     });
   }
 
-  drawCurve('#ef4444', [], factors.map(f => f.red));
-  drawCurve('#0ea5e9', [8, 4], factors.map(f => f.blue));
+  drawCurve('#ef4444', [], factors.map(f => f.red), false);
+  drawCurve('#0ea5e9', [10, 5], factors.map(f => f.blue), true);
 }
 
 // ── Example Answer: Airbnb vs. Traditional Hotels ───────────────
